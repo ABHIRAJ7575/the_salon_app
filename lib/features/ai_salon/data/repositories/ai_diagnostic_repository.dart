@@ -6,7 +6,7 @@ class AiDiagnosticRepository {
   AiDiagnosticRepository({Dio? dio})
       : _dio = dio ??
             Dio(BaseOptions(
-              baseUrl: 'http://localhost:3000',
+              baseUrl: 'http://10.165.215.34:3000',
               connectTimeout: const Duration(seconds: 10),
               receiveTimeout: const Duration(seconds: 10),
               headers: {

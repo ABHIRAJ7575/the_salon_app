@@ -9,8 +9,13 @@
 .buildlog/
 .history
 .svn/
-.swiftpm/
+*.swiftpm/
 migrate_working_dir/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
 
 # IntelliJ related
 *.iml

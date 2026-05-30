@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:the_salon_app/core/presentation/theme/app_theme.dart';
 import 'package:the_salon_app/features/explore/presentation/pages/adaptive_explore_page.dart';
 import 'package:the_salon_app/features/ai_salon/presentation/pages/ai_diagnostic_workspace.dart';
-
+import 'package:the_salon_app/features/ai_salon/presentation/pages/ai_smart_mirror_workspace.dart';
 class MainNavigationHub extends StatefulWidget {
   const MainNavigationHub({super.key});
 
@@ -18,6 +18,7 @@ class _MainNavigationHubState extends State<MainNavigationHub> {
     const AdaptiveExplorePage(),
     const Scaffold(body: Center(child: Text('Social Hub (Reels) - Coming Soon'))),
     const AiDiagnosticWorkspace(),
+    const AiSmartMirrorWorkspace(),
     const Scaffold(body: Center(child: Text('Profile - Coming Soon'))),
   ];
 
@@ -60,6 +61,11 @@ class _MainNavigationHubState extends State<MainNavigationHub> {
                       icon: Icon(Icons.auto_awesome_outlined),
                       selectedIcon: Icon(Icons.auto_awesome),
                       label: Text('AI Salon'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.camera_front_outlined),
+                      selectedIcon: Icon(Icons.camera_front),
+                      label: Text('AR Mirror'),
                     ),
                     NavigationRailDestination(
                       icon: Icon(Icons.person_outline),
@@ -117,7 +123,8 @@ class _MainNavigationHubState extends State<MainNavigationHub> {
               _buildNavItem(0, Icons.explore_outlined, Icons.explore, 'Explore'),
               _buildNavItem(1, Icons.video_collection_outlined, Icons.video_collection, 'Social'),
               _buildNavItem(2, Icons.auto_awesome_outlined, Icons.auto_awesome, 'AI Salon'),
-              _buildNavItem(3, Icons.person_outline, Icons.person, 'Profile'),
+              _buildNavItem(3, Icons.camera_front_outlined, Icons.camera_front, 'AR Mirror'),
+              _buildNavItem(4, Icons.person_outline, Icons.person, 'Profile'),
             ],
           ),
         ),
@@ -128,34 +135,40 @@ class _MainNavigationHubState extends State<MainNavigationHub> {
   Widget _buildNavItem(int index, IconData icon, IconData selectedIcon, String label) {
     final isSelected = _currentIndex == index;
     
-    return GestureDetector(
-      onTap: () => _onTabTapped(index),
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeOutCubic,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        decoration: BoxDecoration(
-          color: isSelected ? AppTheme.primaryBlue.withOpacity(0.1) : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              isSelected ? selectedIcon : icon,
-              color: isSelected ? AppTheme.primaryBlue : AppTheme.textLight,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => _onTabTapped(index),
+        behavior: HitTestBehavior.opaque,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
+          margin: const EdgeInsets.symmetric(horizontal: 2.0),
+          decoration: BoxDecoration(
+            color: isSelected ? AppTheme.primaryBlue.withOpacity(0.1) : Colors.transparent,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                isSelected ? selectedIcon : icon,
                 color: isSelected ? AppTheme.primaryBlue : AppTheme.textLight,
               ),
-            ),
-          ],
+              const SizedBox(height: 4),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    color: isSelected ? AppTheme.primaryBlue : AppTheme.textLight,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

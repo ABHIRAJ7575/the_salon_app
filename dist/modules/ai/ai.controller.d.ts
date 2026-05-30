@@ -3,9 +3,8 @@ export declare class AiController {
     private readonly hfService;
     constructor(hfService: HfInferenceService);
     searchStylists(query: string): Promise<{
-        id: string;
-        name: string;
-        specialty: string;
-        distance: string;
-    }[]>;
+        success: boolean;
+        base64Image: string;
+        message: string;
+    }>;
 }

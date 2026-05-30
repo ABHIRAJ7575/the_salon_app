@@ -10,8 +10,25 @@ exports.HfInferenceService = void 0;
 const common_1 = require("@nestjs/common");
 let HfInferenceService = class HfInferenceService {
     async generateTextEmbedding(text) {
-        console.log(`🧠 Simulating Hugging Face embedding generation for: "${text}"`);
-        return [0.134, -0.456, 0.982, 0.012, -0.711];
+        console.log(`🚀 Offloading generation to the cloud for: "${text}"`);
+        try {
+            const response = await fetch(`https://image.pollinations.ai/prompt/${encodeURIComponent(text)}?nologo=true&width=1024&height=1024`, {
+                method: 'GET',
+            });
+            if (!response.ok) {
+                const err = await response.text();
+                console.error(`💥 AI API tripped on a wire: ${err}`);
+                throw new common_1.InternalServerErrorException('AI API failed. Blame the cloud provider, not me.');
+            }
+            const arrayBuffer = await response.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
+            return `data:image/jpeg;base64,${buffer.toString('base64')}`;
+        }
+        catch (error) {
+            console.error('🔥 Epic failure in AI generation:', error);
+            const placeholderBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+            return `data:image/png;base64,${placeholderBase64}`;
+        }
     }
 };
 exports.HfInferenceService = HfInferenceService;

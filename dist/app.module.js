@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
 const ai_controller_1 = require("./modules/ai/ai.controller");
 const hf_inference_service_1 = require("./modules/ai/hf-inference.service");
 let AppModule = class AppModule {
@@ -15,7 +16,7 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [],
+        imports: [config_1.ConfigModule.forRoot({ isGlobal: true })],
         controllers: [ai_controller_1.AiController],
         providers: [hf_inference_service_1.HfInferenceService],
     })

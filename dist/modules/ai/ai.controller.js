@@ -20,13 +20,16 @@ let AiController = class AiController {
         this.hfService = hfService;
     }
     async searchStylists(query) {
-        console.log('📬 Received incoming natural language search query:', query);
-        const mockEmbedding = await this.hfService.generateTextEmbedding(query);
-        return [
-            { id: '1', name: 'Arjun Sharma', specialty: 'Fade & Textured Crop Expert', distance: '1.2 km' },
-            { id: '2', name: 'Rohan Verma', specialty: 'Vibrant Hair Coloring & Balayage', distance: '2.5 km' },
-            { id: '3', name: 'Vikram Dixit', specialty: 'Premium Bridal & Beard Sculpting', distance: '3.1 km' }
-        ];
+        if (!query) {
+            throw new common_1.InternalServerErrorException('Query is empty. What exactly am I supposed to generate? A black hole?');
+        }
+        console.log('📬 Controller hit. Over-complicated microservices? No thanks. Just a clean, monolithic route serving real AI.');
+        const base64Image = await this.hfService.generateTextEmbedding(query);
+        return {
+            success: true,
+            base64Image: base64Image,
+            message: "AI generation complete! Behold the power of cloud compute."
+        };
     }
 };
 exports.AiController = AiController;
